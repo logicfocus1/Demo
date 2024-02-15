@@ -9,4 +9,4 @@ build:
     - gradle build
   artifacts:
     paths:
-    - /home/gitlab-runner/*.jar
+    -  build/libs/*.jar
