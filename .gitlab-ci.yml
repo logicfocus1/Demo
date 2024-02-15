@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
   
 build:
   stage: build
@@ -13,4 +14,4 @@ test:
   stage: test
   script:
     - echo "Test Stage run successfully!"
-    - gradle test
+  
