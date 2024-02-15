@@ -9,4 +9,5 @@ build:
     - gradle build
   artifacts:
     paths:
-    -  build/libs/*.jar
+    #-  build/libs/*.jar
+    - builds/logicfocus2/demo/*.jar
