@@ -8,17 +8,7 @@ build:
     - echo "Building Application"
     - gradle build
 
-deploy_dev:
-  stage: deploy_dev
+deploy:
+  stage: deploy
   script:
-    - ./deploy
-build_integration:
-  stage: build_integration
-  script:
-    - ./gradlew assemble
-  artifacts:
-    paths:
-      - build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - main
+    - java -jar build/libs/*.jar
