@@ -4,7 +4,7 @@ stages:
 build:
   stage: build
   before_script:
-    - export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+    - export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64/bin/java"
   script:
     - echo "Building Application"
     - ./gradlew clean build
