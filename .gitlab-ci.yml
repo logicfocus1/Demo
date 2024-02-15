@@ -7,4 +7,4 @@ build:
   
   script:
     - echo "Building Application"
-    - gradle clean build
+    - gradle build
