@@ -3,8 +3,8 @@ stages:
   - deploy
 build:
   stage: build
-  variables:
-    JAVA_HOME: "/usr/lib/jvm/java-1.17.0-openjdk-amd64"
+  before_script:
+    - export JAVA_HOME="/usr/lib/jvm/java-1.17.0-openjdk-amd64"
   script:
     - echo "Building Application"
     - ./gradlew clean build
