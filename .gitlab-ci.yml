@@ -7,4 +7,4 @@ build:
     - export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64/bin/java"
   script:
     - echo "Building Application"
-    - /home/logicfocus/Devops/gradle-8.3/bin/gradle build  
+    - /Devops/gradle-8.3/bin/gradle build  
