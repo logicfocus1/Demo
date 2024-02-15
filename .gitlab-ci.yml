@@ -5,6 +5,6 @@ build:
   stage: build
   script:
     - echo "Building Application"
-    - ./gradlew build
+    - ./gradle build
 
   
