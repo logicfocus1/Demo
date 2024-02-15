@@ -5,7 +5,7 @@ build:
   stage: build
   script:
     - echo "Building Application"
-    
+    - chmod +x gradlew
     - gradlew build
 
   
