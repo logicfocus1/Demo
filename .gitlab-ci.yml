@@ -8,3 +8,9 @@ build:
   script:
     - echo "Building Application"
     - gradle build
+
+test:
+  stage: test
+  script:
+    - echo "Test Stage run successfully!"
+    - gradle test
