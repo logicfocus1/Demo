@@ -9,11 +9,3 @@ build:
     - echo "Building Application"
     - ./gradlew clean build
 
-deploy:
-  stage: deploy
-  script:
-    - echo "Deploying JAR file"
-    - cd
-    - ls
-    - cp /home/gitlab-runner/builds/QvfgTw4o/0/logicfocus2/demo/app/build/libs/app.jar /home/ubuntu
-    - ls
