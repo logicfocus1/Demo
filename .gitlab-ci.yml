@@ -13,5 +13,6 @@ deploy:
   stage: deploy
   script:
     - echo "Deploying JAR file"
-    - cp build/libs/app.jar /home/ubuntu
+    - cd
+    - cp /home/gitlab-runner/builds/QvfgTw4o/0/logicfocus2/demo/app/build/libs/app.jar /home/ubuntu
     - ls
