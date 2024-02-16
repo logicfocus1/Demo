@@ -19,7 +19,7 @@ publish:
   image: gradle:8.3
   script:
     - echo "Publishing to Nexus"
-    - gradlew deploy:deploy-file \
+    - gradle deploy:deploy-file \
       -Durl=http://192.168.1.30:8081 \
       -DrepositoryId=gitlabcicd \
       -Dfile=/home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar \
