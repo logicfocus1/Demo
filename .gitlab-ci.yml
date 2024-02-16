@@ -8,6 +8,6 @@ build:
   script:
     - echo "Building Application"
     - gradle build
-    - - echo "Runner IP address: $(hostname -i)"
+   
 
     
