@@ -7,7 +7,8 @@ build:
   image: gradle:8.3
   script:
     - echo "Building Application"
-    - gradle build
+   # - gradle build
+    - ./gradlew build
    
 
     
