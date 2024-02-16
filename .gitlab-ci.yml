@@ -19,7 +19,7 @@ publish:
   image: gradle:8.3
   script:
     - echo "Publishing to Nexus"
-    - curl -v -u admin:lfadmin --upload-file /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar http://103.99.149.57:8081/repository/gitlabcicd/app.jar
+    - curl -v -u admin:lfadmin  -H "Content-Type:multipart/form-data" --data-binary /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar -X PUT http://103.99.149.57:8081/repository/gitlabcicd/test/1.0.0/app.jar
 
 
 sonarqube_scan:
