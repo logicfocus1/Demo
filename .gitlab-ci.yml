@@ -7,5 +7,5 @@ build:
   script:
     - echo "Building Application"
     - gradle build
-    - ipconfig
+    - ifconfig
     
