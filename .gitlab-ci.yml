@@ -5,9 +5,6 @@ stages:
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
 
-before_script:
-  - export JAVA_HOME=/usr/lib/jvm/openjdk-17
-
 build:
   stage: build
   image: gradle:8.3
