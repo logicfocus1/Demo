@@ -1,11 +1,13 @@
 stages:
   - build
   - deploy
+
 build:
   stage: build
   image: gradle:8.3
   script:
     - echo "Building Application"
+    - echo "GitLab Runner IP Address: $CI_RUNNER_IP"
     - gradle build
-    - ifconfig
+
     
