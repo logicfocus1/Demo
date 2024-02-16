@@ -19,7 +19,7 @@ publish:
   image: gradle:8.3
   script:
     - echo "Publishing to Nexus"
-    - gradle deploy:deploy-file -Durl=http://192.168.1.30:8081 -DrepositoryId=gitlabcicd -Dfile=/home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar -DgroupId=logicfocus.com -DartifactId=gitlabcicd -Dversion=1.0.1 -Dpackaging=jar
+    - gradlew deploy:deploy-file -Durl=http://192.168.1.30:8081 -DrepositoryId=gitlabcicd -Dfile=/home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar -DgroupId=logicfocus.com -DartifactId=gitlabcicd -Dversion=1.0.1 -Dpackaging=jar
   only:
     - main
 
