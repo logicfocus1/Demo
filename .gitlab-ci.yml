@@ -14,10 +14,9 @@ sonarqube_scan:
   image: gradle:8.3
   script:
     - echo "Running SonarQube analysis"
-    - ./gradlew sonarqube \
-        -Dsonar.host.url="http://192.168.1.12:9000" \
-        -Dsonar.login="${SONAR_TOKEN}" \
-        -Dsonar.projectKey="gitlabcicd"
+    - ./gradlew sonarqube -Dsonar.host.url=http://192.168.1.12:9000
+
+         -Dsonar.projectKey="gitlabcicd"
 
 
 
