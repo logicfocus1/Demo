@@ -24,7 +24,9 @@ publish:
     - main
 
 sonarqube_scan:
-  stage: build
+  needs:  
+    - deploy
+  stage: scan
   image: gradle:8.3
   variables:
     JAVA_HOME: "/usr/lib/jvm/java-1.11.0-openjdk-amd64"
