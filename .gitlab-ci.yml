@@ -25,7 +25,7 @@ publish:
 
 sonarqube_scan:
   needs:  
-    - deploy
+    - publish
   stage: scan
   image: gradle:8.3
   variables:
