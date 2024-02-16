@@ -6,11 +6,10 @@
  */
 dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
-    }
+}
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id "org.sonarqube" version "3.4.0.2513"
-
     id 'application'
 }
 sonarqube {
