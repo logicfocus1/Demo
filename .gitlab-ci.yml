@@ -15,6 +15,8 @@ build:
 sonarqube_scan:
   stage: build
   image: gradle:8.3
+  variables:
+    JAVA_HOME: "/usr/lib/jvm/java-1.11.0-openjdk-amd64"
   script:
     - echo "Running SonarQube analysis"
     - ./gradlew sonarqube -Dsonar.host.url=http://192.168.1.12:9000 -Dsonar.projectKey="gitlabcicd"
