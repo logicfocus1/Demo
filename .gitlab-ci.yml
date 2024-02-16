@@ -1,14 +1,30 @@
 stages:
   - build
   - deploy
-
+variables:
+  SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
 build:
   stage: build
   image: gradle:8.3
   script:
     - echo "Building Application"
-   # - gradle build
     - ./gradlew build
-   
+sonarqube_scan:
+  stage: build
+  image: gradle:8.3
+  script:
+    - echo "Running SonarQube analysis"
+    - ./gradlew sonarqube \
+        -Dsonar.host.url="http://192.168.1.12:9000" \
+        -Dsonar.login="${SONAR_TOKEN}" \
+        -Dsonar.projectKey="gitlabcicd"
+deploy:
+  stage: deploy
+  # Add deployment configuration here
 
-    
+
+
+
+
+
+
