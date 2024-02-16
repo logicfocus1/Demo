@@ -8,4 +8,4 @@ build:
     - echo "Building Application"
     - gradle build
     - pwd
-    - ls /builds/logicfocus2/demo
+    
