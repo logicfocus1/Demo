@@ -1,26 +1,23 @@
 stages:
   - build
   - deploy
+
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
+
+before_script:
+  - export JAVA_HOME=/usr/lib/jvm/openjdk-17
+
 build:
   stage: build
   image: gradle:8.3
   script:
     - echo "Building Application"
     - ./gradlew build
+
 sonarqube_scan:
   stage: build
-  image: gradle:8.3
+  image: gradle:8.5  # or a later version
   script:
     - echo "Running SonarQube analysis"
-    - ./gradlew sonarqube -Dsonar.host.url=http://192.168.1.12:9000
-
-         -Dsonar.projectKey="gitlabcicd"
-
-
-
-
-
-
-
+    - ./gradlew sonarqube -Dsonar.host.url=http://192.168.1.12:9000 -Dsonar.projectKey="gitlabcicd"
