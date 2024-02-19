@@ -17,6 +17,9 @@ publish:
     - build
   stage: deploy
   image: gradle:8.3
+  before_script:
+    - apt update && apt install curl
   script:
     - echo "Publishing to Nexus"
-    - curl -v -u admin:lfadmin  -H "Content-Type:multipart/form-data" --data-binary /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar -X PUT http://192.168.1.30:8081/repository/gitlabcicd/test/1.0.0/app.jar
+    - ls -al
+    - curl --header admin:lfadmin --upload-file /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar http://192.168.1.30:8081/repository/gitlabcicd/app.jar
