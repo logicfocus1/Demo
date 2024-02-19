@@ -2,19 +2,10 @@ plugins {
     id 'java'
     id 'org.sonarqube' version '4.0.0.2929'
     id 'application'
-    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://192.168.1.30:8081/repository/app/'
-        allowInsecureProtocol = true // Allow insecure protocol explicitly
-        credentials {
-            username = 'admin'
-            password = 'lfadmin'
-        }
-    }
 }
 
 dependencies {
@@ -36,34 +27,5 @@ sonarqube {
     properties {
         property 'sonar.host.url', 'http://192.168.1.12:9000/'
         property 'sonar.login', 'a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d'
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url 'http://192.168.1.30:8081/repository/app/'
-            allowInsecureProtocol = true // Allow insecure protocol explicitly
-            credentials {
-                username = 'admin'
-                password = 'lfadmin'
-            }
-        }
-    }
-}
-
-tasks.clean {
-    doLast {
-        // Clean up temporary directories and files
-        delete fileTree(dir: buildDir, include: '**/compileJava/compileTransaction/backup-dir')
-        delete fileTree(dir: buildDir, include: '**/compileJava/compileTransaction/stash-dir')
-        delete fileTree(dir: buildDir, include: '**/publishMavenJavaPublicationToMavenRepository/module-maven-metadata.xml')
-        delete fileTree(dir: buildDir, include: '**/publications/mavenJava/module.json')
-        delete fileTree(dir: buildDir, include: '**/publications/mavenJava/pom-default.xml')
     }
 }
