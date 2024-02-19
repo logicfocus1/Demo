@@ -10,4 +10,5 @@ build:
   image: gradle:8.3
   script:
     - echo "Building Application"
-    - sudo ./gradlew build
+    - chmod -R 777 .
+    - ./gradlew build
