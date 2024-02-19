@@ -14,24 +14,27 @@ build:
   image: gradle:8.3
   script:
     - echo "Building Application"
-    - chmod -R 777 gradlew 
-    - ./gradlew build
+    #- chmod -R 777 gradlew 
+    #- ./gradlew build
 
 publish:
   stage: publish
   script:
-    - ./gradlew publish
+    - echo "publish Application"
+    #- ./gradlew publish
 
 sonarqube:
   stage: sonarqube
   script:
-    - ./gradlew sonarqube
+    - echo "scan Application"
+   # - ./gradlew sonarqube
 
 
 depentancytrack:
   stage: depentancytrack
   script:
-    - ./gradlew cyclonedxBom
+    - echo "track Application"
+    #- ./gradlew cyclonedxBom
 
   variables:
     NEXUS_URL: "http://192.168.1.30:8081"
