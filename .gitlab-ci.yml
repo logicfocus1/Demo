@@ -11,4 +11,4 @@ build:
   script:
     - echo "Building Application"
     - chmod -R 777 gradlew 
-    - ./gradlew build
+    - sudo ./gradlew build
