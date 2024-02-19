@@ -12,3 +12,8 @@ build:
     - echo "Building Application"
     - chmod -R 777 gradlew 
     - ./gradlew build
+
+publish:
+  stage: publish
+  script:
+    - ./gradlew publish
