@@ -43,9 +43,6 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            groupId = 'com.example' // Replace 'com.example' with your desired group id
-            artifactId = 'app' // Replace 'my-artifact' with your desired artifact id
-            version = '1.0.0' // Replace '1.0.0' with your desired version
         }
     }
     repositories {
@@ -57,5 +54,16 @@ publishing {
                 password = 'lfadmin'
             }
         }
+    }
+}
+
+tasks.clean {
+    doLast {
+        // Clean up temporary directories and files
+        delete fileTree(dir: buildDir, include: '**/compileJava/compileTransaction/backup-dir')
+        delete fileTree(dir: buildDir, include: '**/compileJava/compileTransaction/stash-dir')
+        delete fileTree(dir: buildDir, include: '**/publishMavenJavaPublicationToMavenRepository/module-maven-metadata.xml')
+        delete fileTree(dir: buildDir, include: '**/publications/mavenJava/module.json')
+        delete fileTree(dir: buildDir, include: '**/publications/mavenJava/pom-default.xml')
     }
 }
