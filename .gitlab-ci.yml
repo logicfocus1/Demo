@@ -22,4 +22,5 @@ publish:
   script:
     - echo "Publishing to Nexus"
     - ls -al
-    - curl --header admin:lfadmin --upload-file /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs/app.jar http://192.168.1.30:8081/repository/gitlabcicd/app.jar
+    - ls /home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/libs
+
