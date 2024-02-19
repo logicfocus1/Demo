@@ -1,6 +1,7 @@
 stages:
   - build
   - publish
+  - sonarqube
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
