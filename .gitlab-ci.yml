@@ -3,6 +3,7 @@ stages:
   - publish
   - sonarqube
   - depentancytrack
+  - publishbom
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
@@ -30,3 +31,9 @@ depentancytrack:
   stage: depentancytrack
   script:
     - ./gradlew cyclonedxBom
+
+publishbom:
+  stage: publishbom
+  image: maven:3.8.4-jdk-11
+  script:
+    - mvn org.dependencytrack:dependency-track-maven-plugin:3.0.1-BETA-01:BomUpload@upload-bom -DdependencyTrack.url=http://192.168.1.30:8084 -DdependencyTrack.apiKey=odt_CqAAWRarFqMKczrIV8liZLuyum9i2NIn -DdependencyTrack.projectName=app -DdependencyTrack.projectVersion=1.0.1 -DdependencyTrack.bomFile=/home/gitlab-runner/builds/RGEsRsoZ/0/logicfocus2/demo/app/build/reports/bom.xml
