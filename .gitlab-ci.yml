@@ -2,6 +2,7 @@ stages:
   - build
   - publish
   - sonarqube
+  - depentancytrack
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
@@ -23,3 +24,9 @@ sonarqube:
   stage: sonarqube
   script:
     - ./gradlew sonarqube
+
+
+depentancytrack:
+  stage: depentancytrack
+  script:
+    - ./gradlew cyclonedxBom
