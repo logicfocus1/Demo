@@ -1,61 +1,59 @@
-plugins {
-    id 'java'
-    id 'org.sonarqube' version '4.0.0.2929'
-    id 'application'
-    id 'maven-publish'
-}
+ id 'java'
+  id 'org.sonarqube' version '4.0.0.2929'
+  id 'application'
+  id 'maven-publish'
 
 repositories {
-    mavenCentral()
-    maven {
-        url 'http://192.168.1.30:8081/repository/app/'
-        allowInsecureProtocol = true // Allow insecure protocol explicitly
-        credentials {
-            username = 'admin'
-            password = 'lfadmin'
-        }
+  mavenCentral()
+  maven {
+    url 'http://192.168.1.30:8081/repository/app/'
+    allowInsecureProtocol = true // Allow insecure protocol explicitly
+    credentials {
+      username = 'admin'
+      password = 'lfadmin'
     }
+  }
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:32.1.1-jre'
-    testImplementation 'junit:junit:4.13.2'
+  implementation 'com.google.guava:guava:32.1.1-jre'
+  testImplementation 'junit:junit:4.13.2'
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
 }
 
 application {
-    mainClass = 'demo.App'
+  mainClass = 'demo.App'
 }
 
 sonarqube {
-    properties {
-        property 'sonar.host.url', 'http://192.168.1.12:9000/'
-        property 'sonar.login', 'a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d'
-    }
+  properties {
+    property 'sonar.host.url', 'http://192.168.1.12:9000/'
+    property 'sonar.login', 'a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d'
+  }
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'com.example' // Replace 'com.example' with your desired group id
-            artifactId = 'app' // Replace 'my-artifact' with your desired artifact id
-            version = '1.0.0' // Replace '1.0.0' with your desired version
-        }
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      groupId = 'com.example' // Replace 'com.example' with your desired group id
+      artifactId = 'app' // Replace 'my-artifact' with your desired artifact id
+      version = '1.0.0' // Replace '1.0.0' with your desired version
     }
-    repositories {
-        maven {
-            url 'http://192.168.1.30:8081/repository/app/'
-            allowInsecureProtocol = true // Allow insecure protocol explicitly
-            credentials {
-                username = 'admin'
-                password = 'lfadmin'
-            }
-        }
+  }
+  repositories {
+    maven {
+      url 'http://192.168.1.30:8081/repository/app/'
+      allowInsecureProtocol = true // Allow insecure protocol explicitly
+      credentials {
+        username = 'admin'
+        password = 'lfadmin'
+      }
     }
+  }
 }
