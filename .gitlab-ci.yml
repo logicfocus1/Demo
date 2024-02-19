@@ -17,3 +17,8 @@ publish:
   stage: publish
   script:
     - ./gradlew publish
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - ./gradlew sonarqube
