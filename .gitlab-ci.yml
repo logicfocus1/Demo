@@ -41,7 +41,7 @@ depentancytrack:
     REPO_NAME: "app"
     GROUP_ID: "com.logicfocus"
     ARTIFACT_ID: "app"
-    VERSION: "1.0.1"
+    VERSION: "1.0.0"
     NEXUS_USERNAME: "admin"
     NEXUS_PASSWORD: "lfadmin"
     
@@ -51,8 +51,8 @@ build_info:
   stage: build_info
   script:
     - |
-      artifactPath="/app/com/logicfocus/app/1.0.1/app-1.0.1.jar"
-      nexusChecksumUrl="${NEXUS_URL}/service/rest/v1/components?repository=app&group=com/logicfocus&name=app&version=1.0.1"
+      artifactPath="/app/com/example/app/1.0.0/app-1.0.0.jar"
+      nexusChecksumUrl="${NEXUS_URL}/service/rest/v1/components?repository=app&group=com/logicfocus&name=app&version=1.0.0"
       artifactInfo=$(curl -s -u admin:lfadmin ${nexusChecksumUrl})
       checksumValue=$(echo ${artifactInfo} | jq -r '.items[0].assets[0].checksum.sha1')
       echo '{' > buildData.json
