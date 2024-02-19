@@ -11,17 +11,3 @@ build:
   script:
     - echo "Building Application"
     - ./gradlew build
-
-publish:
-  needs:  
-    - build
-  stage: deploy
-  image: gradle:8.3
-  before_script:
-    - apt update && apt install curl
-  script:
-    - echo "Publishing to Nexus"
-    - ls -al
-    - cd app/build/libs
-    - ls
-
