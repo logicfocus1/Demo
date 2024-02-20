@@ -44,9 +44,6 @@ variables:
 read:
   stage: read
   script:
-    - apt-get update
-    - apt-get install -y curl jq
-   
     - |
       artifactPath="/$REPO_NAME/${GROUP_ID//./}/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.tar"
       nexusChecksumUrl="$NEXUS_URL/service/rest/v1/components?repository=$REPO_NAME&group=$GROUP_ID&name=$ARTIFACT_ID&version=$VERSION"
