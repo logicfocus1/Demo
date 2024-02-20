@@ -39,7 +39,7 @@ build_info:
   stage: build_info
   script:
     - |
-      apt install jq
+      sudo apt install jq
       export NEXUS_URL="http://192.168.1.30:8081"
       export REPO_NAME="app"
       export GROUP_ID="com.example"
