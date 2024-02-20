@@ -45,11 +45,11 @@ build_info:
   stage: build_info
   script:
     - |
-      artifactPath="/$REPO_NAME/${GROUP_ID//./}/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.tar"
+      artifactPath="/$REPO_NAME/${GROUP_ID//./}/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.jar"
       nexusChecksumUrl="$NEXUS_URL/service/rest/v1/components?repository=$REPO_NAME&group=$GROUP_ID&name=$ARTIFACT_ID&version=$VERSION"
       artifactInfo=$(curl -s -u admin:lfadmin "$nexusChecksumUrl")
       checksumValue=$(echo "$artifactInfo" | jq -r '.items[0].assets[0].checksum.sha1')
-      echo "{\"buildnumber\": \"$CI_PIPELINE_ID\", \"buildurl\": \"$CI_PIPELINE_URL\", \"group\": \"com.logicfocus\", \"checksum\": \"$checksumValue\", \"artifact\": \"$ARTIFACT_ID\", \"ext\": \"tar\", \"version\": \"$VERSION\"}" > buildData.json
+      echo "{\"buildnumber\": \"$CI_PIPELINE_ID\", \"buildurl\": \"$CI_PIPELINE_URL\", \"group\": \"com.logicfocus\", \"checksum\": \"$checksumValue\", \"artifact\": \"$ARTIFACT_ID\", \"ext\": \"jar\", \"version\": \"$VERSION\"}" > buildData.json
     
   artifacts:
     paths:
