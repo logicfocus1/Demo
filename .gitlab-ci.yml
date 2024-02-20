@@ -50,7 +50,7 @@ read:
       artifactInfo=$(curl -s -u admin:lfadmin "$nexusChecksumUrl")
       checksumValue=$(echo "$artifactInfo" | jq -r '.items[0].assets[0].checksum.sha1')
       echo "{\"buildnumber\": \"$CI_PIPELINE_ID\", \"buildurl\": \"$CI_PIPELINE_URL\", \"group\": \"com.logicfocus\", \"checksum\": \"$checksumValue\", \"artifact\": \"$ARTIFACT_ID\", \"ext\": \"tar\", \"version\": \"$VERSION\"}" > buildData.json
-    - mv buildData.json buildDataStash/
+    
   artifacts:
     paths:
       - buildDataStash/
