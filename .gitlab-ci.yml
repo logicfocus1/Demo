@@ -44,7 +44,9 @@ build_info:
       export GROUP_ID="com.example"
       export ARTIFACT_ID="app"
       export VERSION="1.0.0"
-      export CHECKSUM=$(curl -s -u "admin:lfadmin" "$NEXUS_URL/service/rest/v1/components?repository=$REPO_NAME&maven.groupId=$GROUP_ID&maven.artifactId=$ARTIFACT_ID&maven.baseVersion=$VERSION" | jq -r '.items[0].checksum.sha1')
+      
+      export CHECKSUM=$(curl -s -u "admin:lfadmin" "$NEXUS_URL/service/rest/v1/components?repository=$REPO_NAME&maven.groupId=$GROUP_ID&maven.artifactId=$ARTIFACT_ID&maven.baseVersion=$VERSION" | grep -o '"sha1":"[^"]*' | awk -F'"' '{print $4}')
+
       echo "Checksum: $CHECKSUM"
 
 
