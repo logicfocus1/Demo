@@ -1,13 +1,24 @@
 stages:
+  - fetch_checksum
   - build
   - publish
   - sonarqube
-  - depentancytrack
-  - build_info
-  - read_build_info
+  - dependencytrack
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
+  NEXUS_URL: "http://192.168.1.30:8081/repository/app"
+  ARTIFACT_NAME: "app"
+  ARTIFACT_VERSION: "1.0.0"
+
+fetch_checksum:
+  stage: fetch_checksum
+  image: curlimages/curl
+  script:
+    - |
+      CHECKSUM=$(curl -s $NEXUS_URL/$ARTIFACT_NAME/$ARTIFACT_VERSION/maven-metadata.xml | grep -oPm1 "(?<=<checksums><sha1>).*(?=</sha1>)")
+      echo "Checksum: $CHECKSUM"
+
 
 build:
   stage: build
@@ -27,51 +38,10 @@ sonarqube:
   stage: sonarqube
   script:
     - echo "scan Application"
-   # - ./gradlew sonarqube
+    # - ./gradlew sonarqube
 
-
-depentancytrack:
-  stage: depentancytrack
+dependencytrack:
+  stage: dependencytrack
   script:
     - echo "track Application"
     #- ./gradlew cyclonedxBom
-
-  variables:
-    NEXUS_URL: "http://192.168.1.30:8081"
-    REPO_NAME: "app"
-    GROUP_ID: "com.logicfocus"
-    ARTIFACT_ID: "app"
-    VERSION: "1.0.0"
-    NEXUS_USERNAME: "admin"
-    NEXUS_PASSWORD: "lfadmin"
-    
-
-
-build_info:
-  stage: build_info
-  script:
-    - |
-      artifactPath="/app/com/example/app/1.0.0/app-1.0.0.jar"
-      nexusChecksumUrl="${NEXUS_URL}/service/rest/v1/components?repository=app&group=com/logicfocus&name=app&version=1.0.0"
-      artifactInfo=$(curl -s -u admin:lfadmin ${nexusChecksumUrl})
-      checksumValue=$(echo ${artifactInfo} | jq -r '.items[0].assets[0].checksum.sha1')
-      echo '{' > buildData.json
-      echo "  \"buildnumber\": \"${CI_PIPELINE_IID}\"," >> buildData.json
-      echo "  \"buildurl\": \"${CI_PIPELINE_URL}\"," >> buildData.json
-      echo '  "group": "com.logicfocus",' >> buildData.json
-      echo "  \"checksum\": \"${checksumValue}\"," >> buildData.json
-      echo "  \"artifact\": \"${ARTIFACT_ID}\"," >> buildData.json
-      echo '  "ext": "jar",' >> buildData.json
-      echo "  \"version\": \"${VERSION}\"" >> buildData.json
-      echo '}' >> buildData.json
-      cat buildData.json
-      echo "Publishing build data to artifact registry..."
-      curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file buildData.json ${NEXUS_URL}/service/rest/v1/components?repository=${REPO_NAME}
-  artifacts:
-    paths:
-      - buildData.json
-
-read_build_info:
-  stage: read_build_info
-  script:
-    - cat buildData.json
