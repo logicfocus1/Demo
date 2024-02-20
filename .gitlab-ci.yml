@@ -3,8 +3,7 @@ stages:
   - publish
   - sonarqube
   - depentancytrack
-  - build_info
-  - read_build_info
+  - read
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
