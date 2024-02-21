@@ -1,9 +1,10 @@
 stages:
   - build
   - publish
-  - sonarqube
   - depentancytrack
   - build_info
+  - dependency-track
+  - sonarqube
 
 variables:
   SONAR_TOKEN: "a39a83e08cd27c6aaaeb3db1e6e3ad2874f0e30d"
@@ -22,11 +23,7 @@ publish:
     - echo "publish Application"
     - ./gradlew publish
 
-sonarqube:
-  stage: sonarqube
-  script:
-    - echo "scan Application"
-    - ./gradlew sonarqube
+
 
 depentancytrack:
   stage: depentancytrack
@@ -55,3 +52,9 @@ build_info:
     paths:
       - buildDataStash/
     expire_in: 1 week
+
+sonarqube:
+  stage: sonarqube
+  script:
+    - echo "scan Application"
+    - ./gradlew sonarqube
