@@ -24,12 +24,20 @@ jobs:
           gcloud auth activate-service-account --key-file=/cloudbees/workspace/gcp.json
           gcloud config set project dev-antonym-384006
 
+      - name: Setup SSH Key
+        uses: docker://google/cloud-sdk:latest
+        run: |
+          mkdir -p /cloudbees/home/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /cloudbees/home/.ssh/google_compute_engine
+          chmod 600 /cloudbees/home/.ssh/google_compute_engine
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > /cloudbees/home/.ssh/google_compute_engine.pub
+          chmod 644 /cloudbees/home/.ssh/google_compute_engine.pub
+
       - uses: docker://google/cloud-sdk:latest
         name: Deploy
         kind: deploy
         run: |-
-         mkdir  /cloudbees/home/.ssh
-         INSTANCE_NAME="application"
+          INSTANCE_NAME="application"
           gcloud compute ssh admin@$INSTANCE_NAME --zone=us-west4-a --command="
             cd /mnt/sde/demo/core/ && \
             ./deployment.sh"
