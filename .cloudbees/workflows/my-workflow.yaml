@@ -23,4 +23,13 @@ jobs:
           EOF
           gcloud auth activate-service-account --key-file=/cloudbees/workspace/gcp.json
           gcloud config set project dev-antonym-384006
+
+      - uses: docker://google/cloud-sdk:latest
+        name: Deploy
+        kind: deploy
+        run: |-
+         INSTANCE_NAME="application"
+          gcloud compute ssh admin@$INSTANCE_NAME --zone=us-west4-a --command="
+            cd /mnt/sde/demo/core/ && \
+            ./deployment.sh"
       
