@@ -28,6 +28,7 @@ jobs:
         name: Deploy
         kind: deploy
         run: |-
+         mkdir  /cloudbees/home/.ssh
          INSTANCE_NAME="application"
           gcloud compute ssh admin@$INSTANCE_NAME --zone=us-west4-a --command="
             cd /mnt/sde/demo/core/ && \
