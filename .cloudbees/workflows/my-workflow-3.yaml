@@ -19,16 +19,20 @@ jobs:
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          # Retrieve last 25 commits
+          # Initialize an empty string for commit details
           COMMIT_DETAILS=""
+
+          # Loop through the last 25 commits
           for COMMIT_HASH in $(git log -25 --pretty=format:"%H"); do
             COMMIT_MSG=$(git log -1 --pretty=format:"%B" $COMMIT_HASH)
             COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an" $COMMIT_HASH)
             COMMIT_DATE=$(git log -1 --pretty=format:"%ad" $COMMIT_HASH)
 
-            COMMIT_DETAILS+="$COMMIT_HASH | $COMMIT_MSG | $COMMIT_AUTHOR | $COMMIT_DATE\n"
+            # Append commit details to the COMMIT_DETAILS string
+            COMMIT_DETAILS="${COMMIT_DETAILS}${COMMIT_HASH} | ${COMMIT_MSG} | ${COMMIT_AUTHOR} | ${COMMIT_DATE}\n"
           done
 
+          # Output commit details for CloudBees to use
           echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
 
       - name: Say hello
