@@ -32,8 +32,13 @@ jobs:
             COMMIT_DETAILS="${COMMIT_DETAILS}${COMMIT_HASH} | ${COMMIT_MSG} | ${COMMIT_AUTHOR} | ${COMMIT_DATE}\n"
           done
 
-          # Output commit details for CloudBees to use
-          echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
+          # Write commit details to the output file
+          echo -e "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details.txt
+
+      - name: Debug commit details
+        uses: docker://alpine/git:latest
+        run: cat $CLOUDBEES_OUTPUTS/commit_details.txt
+
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
@@ -44,6 +49,6 @@ jobs:
       - name: Publish evidence
         uses: cloudbees-io/publish-evidence-item@v1
         with:
-          content: |-
+          content: |
             ## Last 25 Commit Details
             ${{ steps.commitinfo.outputs.commit_details }}
