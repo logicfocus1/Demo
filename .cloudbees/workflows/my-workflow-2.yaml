@@ -22,7 +22,7 @@ jobs:
       - name: Get commit details
         uses: docker://alpine/git:latest
         id: commitinfo
-        shell: sh
+
         run: |
           echo "Commit Information:"
           echo "Commit Hash: $(git rev-parse HEAD)"
