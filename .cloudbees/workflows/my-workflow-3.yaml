@@ -29,18 +29,16 @@ jobs:
             COMMIT_DATE=$(git log -1 --pretty=format:"%ad" $COMMIT_HASH)
 
             # Append commit details to the COMMIT_DETAILS string
-            COMMIT_DETAILS="${COMMIT_DETAILS}${COMMIT_HASH} | ${COMMIT_MSG} | ${COMMIT_AUTHOR} | ${COMMIT_DATE}\n"
-          done
+            COMMIT_DETAILS="${COMMIT_DETAILS}${COMMIT_HASH} | ${COMMIT_MSG} | ${COMMIT_AUTHOR} | ${COMMIT_DATE}\n"done
 
           # Write commit details to the output file
-          echo -e "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details.txt
+           echo -e "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details.txt
 
    
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
         id: com
-        shell: sh
         run: |
           echo "hello world"
 
