@@ -46,6 +46,7 @@ jobs:
 
       - name: Publish evidence
         uses: cloudbees-io/publish-evidence-item@v1
+        id: test
         with:
           content: | 
             ## Last 25 Commit Details
