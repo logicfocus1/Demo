@@ -35,10 +35,7 @@ jobs:
           # Write commit details to the output file
           echo -e "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details.txt
 
-      - name: Debug commit details
-        uses: docker://alpine/git:latest
-        run: cat $CLOUDBEES_OUTPUTS/commit_details.txt
-
+   
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
