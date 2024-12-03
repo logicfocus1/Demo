@@ -18,22 +18,25 @@ jobs:
       - name: Checkout repository
         uses: cloudbees-io/checkout@v1
 
-
       - name: Get commit details
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-         
-          echo "Commit Hash: $(git rev-parse HEAD)"
-          echo "Commit Message: $(git log -1 --pretty=%B)"
-          echo "Commit Author: $(git log -1 --pretty=%an)"
-          echo "Commit Date: $(git log -1 --pretty=%ad)"
+          COMMIT_HASH=$(git rev-parse HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+          COMMIT_DATE=$(git log -1 --pretty=%ad)
 
-          echo "${Commit Hash}" >> $CLOUDBEES_OUTPUTS/commit_id
-          echo "${Commit Message}" >> $CLOUDBEES_OUTPUTS/commit_msg
-          echo "${Commit Author}" >> $CLOUDBEES_OUTPUTS/commit_author
-          echo "${Commit Date}" >> $CLOUDBEES_OUTPUTS/commit_date
-          
+          echo "Commit Hash: $COMMIT_HASH"
+          echo "Commit Message: $COMMIT_MSG"
+          echo "Commit Author: $COMMIT_AUTHOR"
+          echo "Commit Date: $COMMIT_DATE"
+
+          echo "$COMMIT_HASH" > $CLOUDBEES_OUTPUTS/commit_id
+          echo "$COMMIT_MSG" > $CLOUDBEES_OUTPUTS/commit_msg
+          echo "$COMMIT_AUTHOR" > $CLOUDBEES_OUTPUTS/commit_author
+          echo "$COMMIT_DATE" > $CLOUDBEES_OUTPUTS/commit_date
+
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
         shell: sh
@@ -44,9 +47,8 @@ jobs:
         uses: cloudbees-io/publish-evidence-item@v1
         with:
           content: |-
-           
             ## Commit Information
             - **Commit ID:** "${{ steps.commitinfo.outputs.commit_id }}"
             - **Commit Message:** "${{ steps.commitinfo.outputs.commit_msg }}" 
-             - **Commit Author:** "${{ steps.commitinfo.outputs.commit_author }}"
-            - **Commit Date:** "${{ steps.commitinfo.outputs.commit_date }}" 
+            - **Commit Author:** "${{ steps.commitinfo.outputs.commit_author }}"
+            - **Commit Date:** "${{ steps.commitinfo.outputs.commit_date }}"
