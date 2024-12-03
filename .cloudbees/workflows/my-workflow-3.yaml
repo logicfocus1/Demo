@@ -1,0 +1,45 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: My workflow
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    outputs:
+      commit_details: ${{ steps.commitinfo.outputs.commit_details }}
+    steps:
+      - name: Checkout repository
+        uses: cloudbees-io/checkout@v1
+
+      - name: Get last 25 commit details
+        uses: docker://alpine/git:latest
+        id: commitinfo
+        run: |
+          # Retrieve last 25 commits
+          COMMIT_DETAILS=""
+          for COMMIT_HASH in $(git log -25 --pretty=format:"%H"); do
+            COMMIT_MSG=$(git log -1 --pretty=format:"%B" $COMMIT_HASH)
+            COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an" $COMMIT_HASH)
+            COMMIT_DATE=$(git log -1 --pretty=format:"%ad" $COMMIT_HASH)
+
+            COMMIT_DETAILS+="$COMMIT_HASH | $COMMIT_MSG | $COMMIT_AUTHOR | $COMMIT_DATE\n"
+          done
+
+          echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
+
+      - name: Say hello
+        uses: docker://golang:1.20.3-alpine3.17
+        shell: sh
+        run: |
+          echo "hello world"
+
+      - name: Publish evidence
+        uses: cloudbees-io/publish-evidence-item@v1
+        with:
+          content: |-
+            ## Last 25 Commit Details
+            ${{ steps.commitinfo.outputs.commit_details }}
