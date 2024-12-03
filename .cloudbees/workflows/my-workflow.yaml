@@ -1,19 +1,13 @@
 apiVersion: automation.cloudbees.io/v1alpha1
 kind: workflow
 name: My workflow
-
 on:
-  push:
-    branches:
-      - '**'
-
-
+  workflow_dispatch:
 jobs:
   build:
     steps:
       - name: Approval12
         uses: cloudbees-io/checkout@v1
-
       - name: Install Google Cloud SDK
         uses: docker://google/cloud-sdk:latest
         env:
@@ -22,12 +16,9 @@ jobs:
           cat <<EOF > /cloudbees/workspace/gcp.json
           ${{ secrets.GCP }}
           EOF
-         
+
           gcloud auth activate-service-account platform@dev-antonym-384006.iam.gserviceaccount.com --key-file=/cloudbees/workspace/gcp.json
           gcloud config set project dev-antonym-384006
-
-      
-
       - uses: docker://google/cloud-sdk:latest
         name: Deploy
         kind: deploy
@@ -36,4 +27,3 @@ jobs:
           gcloud compute ssh admin@$INSTANCE_NAME --zone=us-west4-a --command="
             cd /mnt/sde/demo/core/ && \
             ./deployment.sh"
-      
