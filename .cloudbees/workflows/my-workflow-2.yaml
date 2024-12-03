@@ -22,9 +22,8 @@ jobs:
       - name: Get commit details
         uses: docker://alpine/git:latest
         id: commitinfo
-
         run: |
-          echo "Commit Information:"
+         
           echo "Commit Hash: $(git rev-parse HEAD)"
           echo "Commit Message: $(git log -1 --pretty=%B)"
           echo "Commit Author: $(git log -1 --pretty=%an)"
@@ -32,7 +31,7 @@ jobs:
 
           echo "${Commit Hash}" >> $CLOUDBEES_OUTPUTS/commit_id
           echo "${Commit Message}" >> $CLOUDBEES_OUTPUTS/commit_msg
-           echo "${Commit Author}" >> $CLOUDBEES_OUTPUTS/commit_author
+          echo "${Commit Author}" >> $CLOUDBEES_OUTPUTS/commit_author
           echo "${Commit Date}" >> $CLOUDBEES_OUTPUTS/commit_date
           
       - name: Say hello
