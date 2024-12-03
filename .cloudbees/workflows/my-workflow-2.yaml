@@ -9,11 +9,19 @@ on:
 
 jobs:
   build:
+    outputs:
+      commit_id: ${{ steps.commitinfo.outputs.commit_id }}
+      commit_msg: ${{ steps.commitinfo.outputs.commit_msg }}
+      commit_author: ${{ steps.commitinfo.outputs.commit_author }}
+      commit_date: ${{ steps.commitinfo.outputs.commit_date }}
     steps:
       - name: Checkout repository
         uses: cloudbees-io/checkout@v1
+
+
       - name: Get commit details
         uses: docker://alpine/git:latest
+        id: commitinfo
         shell: sh
         run: |
           echo "Commit Information:"
@@ -21,6 +29,11 @@ jobs:
           echo "Commit Message: $(git log -1 --pretty=%B)"
           echo "Commit Author: $(git log -1 --pretty=%an)"
           echo "Commit Date: $(git log -1 --pretty=%ad)"
+
+          echo "${Commit Hash}" >> $CLOUDBEES_OUTPUTS/commit_id
+          echo "${Commit Message}" >> $CLOUDBEES_OUTPUTS/commit_msg
+           echo "${Commit Author}" >> $CLOUDBEES_OUTPUTS/commit_author
+          echo "${Commit Date}" >> $CLOUDBEES_OUTPUTS/commit_date
           
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
@@ -28,3 +41,13 @@ jobs:
         run: |
           echo "hello world"
 
+      - name: Publish evidence
+        uses: cloudbees-io/publish-evidence-item@v1
+        with:
+          content: |-
+           
+            ## Commit Information
+            - **Commit ID:** "${{ steps.commitinfo.outputs.commit_id }}"
+            - **Commit Message:** "${{ steps.commitinfo.outputs.commit_msg }}" 
+             - **Commit Author:** "${{ steps.commitinfo.outputs.commit_author }}"
+            - **Commit Date:** "${{ steps.commitinfo.outputs.commit_date }}" 
