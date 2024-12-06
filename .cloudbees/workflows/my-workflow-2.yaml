@@ -10,8 +10,7 @@ on:
 jobs:
   build:
     outputs:
-      commit_ids: ${{ steps.commitinfo.outputs.commit_ids }}
-      commit_msgs: ${{ steps.commitinfo.outputs.commit_msgs }}
+      commit_details: ${{ steps.commitinfo.outputs.commit_details }}
     steps:
       - name: Checkout repository
         uses: cloudbees-io/checkout@v1
@@ -20,16 +19,13 @@ jobs:
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          # Get the last 10 commit hashes and messages
-          COMMIT_IDS=$(git log -n 10 --pretty=format:"%H")
-          COMMIT_MSGS=$(git log -n 10 --pretty=format:"%s")
+          # Get the last 10 commit hashes and messages in the format of "Commit ID: Commit Message"
+          COMMIT_DETAILS=$(git log -n 10 --pretty=format:"%H - %s")
 
-          echo "Last 10 Commit IDs: $COMMIT_IDS"
-          echo "Last 10 Commit Messages: $COMMIT_MSGS"
+          echo "Last 10 Commit Details: $COMMIT_DETAILS"
 
-          # Save commit details to CloudBees outputs
-          echo "$COMMIT_IDS" > $CLOUDBEES_OUTPUTS/commit_ids
-          echo "$COMMIT_MSGS" > $CLOUDBEES_OUTPUTS/commit_msgs
+          # Save the commit details to CloudBees output
+          echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
@@ -41,6 +37,5 @@ jobs:
         uses: cloudbees-io/publish-evidence-item@v1
         with:
           content: |-
-            ## Commit Information
-            - **Last 10 Commit IDs:** "${{ steps.commitinfo.outputs.commit_ids }}"
-            - **Last 10 Commit Messages:** "${{ steps.commitinfo.outputs.commit_msgs }}"
+            ## Last 10 Commit Information
+            - "${{ steps.commitinfo.outputs.commit_details }}"
