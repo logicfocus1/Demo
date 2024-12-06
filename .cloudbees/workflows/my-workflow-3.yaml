@@ -19,10 +19,11 @@ jobs:
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          # Get the last 10 commit hashes and messages in the format of "Commit ID - Commit Message"
+          # Get the last 10 commit hashes and messages, formatted with one commit per line
           COMMIT_DETAILS=$(git log -n 10 --pretty=format:"%H - %s")
 
-          echo "Last 10 Commit Details: $COMMIT_DETAILS"
+          echo "Last 10 Commit Details:"
+          echo "$COMMIT_DETAILS"
 
           # Save the commit details to CloudBees output
           echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
