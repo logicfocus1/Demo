@@ -10,10 +10,8 @@ on:
 jobs:
   build:
     outputs:
-      commit_id: ${{ steps.commitinfo.outputs.commit_id }}
-      commit_msg: ${{ steps.commitinfo.outputs.commit_msg }}
-      commit_author: ${{ steps.commitinfo.outputs.commit_author }}
-      commit_date: ${{ steps.commitinfo.outputs.commit_date }}
+      commit_ids: ${{ steps.commitinfo.outputs.commit_ids }}
+      commit_msgs: ${{ steps.commitinfo.outputs.commit_msgs }}
     steps:
       - name: Checkout repository
         uses: cloudbees-io/checkout@v1
@@ -22,20 +20,16 @@ jobs:
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          COMMIT_HASH=$(git rev-parse HEAD)
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          COMMIT_AUTHOR=$(git log -1 --pretty=%an)
-          COMMIT_DATE=$(git log -1 --pretty=%ad)
+          # Get the last 10 commit hashes and messages
+          COMMIT_IDS=$(git log -n 10 --pretty=format:"%H")
+          COMMIT_MSGS=$(git log -n 10 --pretty=format:"%s")
 
-          echo "Commit Hash: $COMMIT_HASH"
-          echo "Commit Message: $COMMIT_MSG"
-          echo "Commit Author: $COMMIT_AUTHOR"
-          echo "Commit Date: $COMMIT_DATE"
+          echo "Last 10 Commit IDs: $COMMIT_IDS"
+          echo "Last 10 Commit Messages: $COMMIT_MSGS"
 
-          echo "$COMMIT_HASH" > $CLOUDBEES_OUTPUTS/commit_id
-          echo "$COMMIT_MSG" > $CLOUDBEES_OUTPUTS/commit_msg
-          echo "$COMMIT_AUTHOR" > $CLOUDBEES_OUTPUTS/commit_author
-          echo "$COMMIT_DATE" > $CLOUDBEES_OUTPUTS/commit_date
+          # Save commit details to CloudBees outputs
+          echo "$COMMIT_IDS" > $CLOUDBEES_OUTPUTS/commit_ids
+          echo "$COMMIT_MSGS" > $CLOUDBEES_OUTPUTS/commit_msgs
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
@@ -48,7 +42,5 @@ jobs:
         with:
           content: |-
             ## Commit Information
-            - **Commit ID:** "${{ steps.commitinfo.outputs.commit_id }}"
-            - **Commit Message:** "${{ steps.commitinfo.outputs.commit_msg }}" 
-            - **Commit Author:** "${{ steps.commitinfo.outputs.commit_author }}"
-            - **Commit Date:** "${{ steps.commitinfo.outputs.commit_date }}"
+            - **Last 10 Commit IDs:** "${{ steps.commitinfo.outputs.commit_ids }}"
+            - **Last 10 Commit Messages:** "${{ steps.commitinfo.outputs.commit_msgs }}"
