@@ -19,10 +19,10 @@ jobs:
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          # Get the last 10 commit hashes and messages, each in format "Commit ID - Commit Message"
-          COMMIT_DETAILS=$(git log -n 10 --pretty=format:"%H - %s")
+          # Get the last 5 commit hashes and messages, each in format "Commit ID - Commit Message"
+          COMMIT_DETAILS=$(git log -n 5 --pretty=format:"%H - %s")
 
-          echo "Last 10 Commit Details:"
+          echo "Last 5 Commit Details:"
           echo "$COMMIT_DETAILS"
 
           # Save the commit details to CloudBees output
@@ -38,5 +38,5 @@ jobs:
         uses: cloudbees-io/publish-evidence-item@v1
         with:
           content: |-
-            ## Last 10 Commit Information
+            ## Last 5 Commit Information
             - "${{ steps.commitinfo.outputs.commit_details }}"
