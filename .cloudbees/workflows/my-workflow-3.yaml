@@ -15,37 +15,27 @@ jobs:
       - name: Checkout repository
         uses: cloudbees-io/checkout@v1
 
-      - name: Get last 25 commit details
+      - name: Get commit details
         uses: docker://alpine/git:latest
         id: commitinfo
         run: |
-          # Initialize an empty string for commit details
-          COMMIT_DETAILS=""
+          # Get the last 10 commit hashes and messages in the format of "Commit ID - Commit Message"
+          COMMIT_DETAILS=$(git log -n 10 --pretty=format:"%H - %s")
 
-          # Loop through the last 25 commits
-          for COMMIT_HASH in $(git log -25 --pretty=format:"%H"); do
-            COMMIT_MSG=$(git log -1 --pretty=format:"%B" $COMMIT_HASH)
-            COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an" $COMMIT_HASH)
-            COMMIT_DATE=$(git log -1 --pretty=format:"%ad" $COMMIT_HASH)
+          echo "Last 10 Commit Details: $COMMIT_DETAILS"
 
-            # Append commit details to the COMMIT_DETAILS string
-            COMMIT_DETAILS="${COMMIT_DETAILS}${COMMIT_HASH} | ${COMMIT_MSG} | ${COMMIT_AUTHOR} | ${COMMIT_DATE}\n"done
-
-          # Write commit details to the output file
-           echo -e "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details.txt
-
-   
+          # Save the commit details to CloudBees output
+          echo "$COMMIT_DETAILS" > $CLOUDBEES_OUTPUTS/commit_details
 
       - name: Say hello
         uses: docker://golang:1.20.3-alpine3.17
-        id: com
+        shell: sh
         run: |
           echo "hello world"
 
       - name: Publish evidence
         uses: cloudbees-io/publish-evidence-item@v1
-        id: test
         with:
-          content: | 
-            ## Last 25 Commit Details
-            ${{ steps.commitinfo.outputs.commit_details }}
+          content: |-
+            ## Last 10 Commit Information
+            - "${{ steps.commitinfo.outputs.commit_details }}"
